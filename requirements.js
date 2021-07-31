@@ -53,7 +53,7 @@ POST METHOD
 Add new Author✌
 
 PUT METHOD
-Add author name
+Add author name✌
 
 DELETE METHOD
 Delete an author
@@ -65,7 +65,7 @@ Add new Publication✌
 
 PUT METHOD
 Update publication name
-Update/ Add books to  publication
+Update/ Add books to  publication✌
 
 DELETE METHOD
 Delete the publication
