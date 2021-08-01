@@ -246,4 +246,98 @@ booky.put('/update/publication/:isbn/:pubId', ((req, res) => {
     return res.json({ books: database.books, publications: database.publication, message: "Succesfully updated data" });
 }))
 
+
+/*
+Route           /book/delete
+Description     Delete a book
+Access          PUBLIC
+Parameter       isbn
+Methods         DELETE
+*/
+
+booky.delete('/book/delete/:isbn', (req,res)=>{
+    //We are not using forEach loop here because here we wwant to delete a specfiedd book i.e filter book that has isbn equal to that received from the parameter. So it would be ideal to use filter method here
+
+    const updatedBookDatabase=database.books.filter((book)=>{
+        return book.ISBN!==req.params.isbn;
+    })
+
+    //filter will return new array, so store it in the master object
+    database.books=updatedBookDatabase;
+    return res.json({books: database.books});
+})
+
+
+/*
+Route           /book/delete/author
+Description     Delete an author from book
+Access          PUBLIC
+Parameter       isbn, author id
+Methods         DELETE
+*/
+
+booky.delete('/book/delete/author/:isbn/:authorId', ((req, res)=>{
+    database.books.forEach((book)=>{
+        if(book.ISBN===req.params.isbn)
+        {
+            const newAuthorList=book.author.filter((auth)=>{
+              auth!==parseInt(req.params.authorId);
+            });
+            book.author=newAuthorList;
+            return;
+        }
+    })
+
+    database.author.forEach((auth)=>{
+        if(auth.id===parseInt(req.params.authorId))
+        {
+            const newBookList=auth.books.filter((book)=>{
+                book!== req.params.isbn;     
+        });
+        auth.books=newBookList;
+    }})
+
+    return res.json({book:database.books, author:database.author, message:"Successfully deleted book"})
+}))
+
+
+/*
+Route           /book/delete/publication
+Description     Delete a publication from book
+Access          PUBLIC
+Parameter       isbn, pub id
+Methods         DELETE
+*/
+
+
+booky.delete('/book/delete/publication/:isbn/:pubId', ((req, res)=>{
+    //Deleting a publication from book.
+    //Approach : Since we want to deal with a sing propertyy of book object first we use forEach loop and then we use filter inside it since it is a array object
+    
+    database.books.forEach((book)=>{
+        if(book.ISBN===req.params.isbn)
+        {
+            const newPublicationnList=book.publications.filter((publication)=>{
+                publication!==parseInt(req.params.pubId);
+            });
+            book.publications=newPublicationnList;
+            return;
+        }
+    })
+
+    database.publication.forEach((pub)=>{
+        if(pub.id===parseInt(req.params.pubId))
+        {
+            const newBookList=pub.books.filter((book)=>{
+                book!==req.params.isbn;
+            });
+            pub.books=newBookList;
+            return;
+        }
+    })
+
+    return res.json({message:"Suceesfully deleted an author", books: database.books, publications: database.publication});
+}))
+
+
 booky.listen(4000, () => console.log("HEy server is running! 😎"));
