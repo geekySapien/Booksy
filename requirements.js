@@ -16,14 +16,14 @@ Publications id, name, books[]
 //GET METHOD
 
 BOOKS
-To get all books✌
-To get specific books✌
-To get lists of books based on category✌
-To get list of booos  based on languages
+To get all books✌🎯
+To get specific books✌🎯
+To get lists of books based on category✌🎯
+To get list of booos  based on author 
 
 
 //authors
-To get all authors ✌
+To get all authors ✌🎯
 To get specific authors based on books (ISBN) ✌
 To get list of authores based on books
 
@@ -36,7 +36,7 @@ To get list of authores based on books
 POST METHOD
 
 //BOOKS
-Add new book✌
+Add new book✌🎯
 
 PUT METHOD
 Update book title✌
@@ -50,7 +50,7 @@ delete an author from book✌
 //Author
 
 POST METHOD
-Add new Author✌
+Add new Author✌🎯
 
 PUT METHOD
 Add author name✌
