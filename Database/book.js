@@ -9,7 +9,7 @@ const BookSchema = mongoose.Schema({
     pubDate: String,
     numOfPage: Number,
     category: [String],
-    publication: Number,
+    publication: [Number],
 });
 
 // Create a book model
