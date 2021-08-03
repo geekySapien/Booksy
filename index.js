@@ -217,7 +217,7 @@ Parameter       isbn
 Methods         PUT
 */
 
-booky.put("/update/title/:isbn", ((req, res) => {
+/*booky.put("/update/title/:isbn", ((req, res) => {
 
     database.books.forEach((book) => {
         if (book.ISBN === req.params.isbn) {
@@ -227,7 +227,22 @@ booky.put("/update/title/:isbn", ((req, res) => {
     }
     );
     return res.json({ Books: database.books });
-}))
+}))*/
+
+booky.put('/update/title/:isbn',async(req, res)=>{
+    const updatedBook=await BookModel.findOneAndUpdate(
+        {
+            ISBN:req.params.isbn
+        },
+        {
+            title : req.body.bookTitle
+        },
+        {
+            new:true
+        });
+        console.log(updatedBook);
+    return res.json({Book:updatedBook});
+})
 
 
 /*
@@ -238,7 +253,7 @@ Parameter       isbn
 Methods         PUT
 */
 
-booky.put('/update/author/:isbn/:authorID', (req, res) => {
+/*booky.put('/update/author/:isbn/:authorID', (req, res) => {
     //update book database
 
     database.books.forEach((book) => {
@@ -258,6 +273,39 @@ booky.put('/update/author/:isbn/:authorID', (req, res) => {
         }
     });
     return res.json({ Books: database.books, Author: database.author });
+})*/
+
+booky.put('/update/author/:isbn/:authorID', async(req, res)=>{
+    const updatedBook=await BookModel.findOneAndUpdate(
+        {
+            ISBN:req.params.isbn
+        },
+        {
+            $push: {
+                authors: parseInt(req.params.authorID)
+            }
+        },
+        {
+            new: true
+        }
+
+    )
+
+    const updatedAuthor=await AuthorModel.findOneAndUpdate(
+        {
+           id:  parseInt(req.params.authorID)
+        },
+        {
+            $addToSet:{
+                books: req.params.isbn
+            }
+        },
+        {
+            new:true
+        }
+    )
+
+    return res.json({books:updatedBook, authors: updatedAuthor, message:"Succesfully added a author to book"});
 })
 
 

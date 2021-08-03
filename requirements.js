@@ -24,7 +24,7 @@ To get list of booos  based on author
 
 //authors
 To get all authors ✌🎯
-To get specific authors based on books (ISBN) ✌
+To get specific authors based on books (ISBN) ✌🎯
 To get list of authores based on books
 
 //Publcations
@@ -39,8 +39,8 @@ POST METHOD
 Add new book✌🎯
 
 PUT METHOD
-Update book title✌
-update/add new book author✌
+Update book title✌🎯
+update/add new book author✌🎯
 
 DELETE METHOD
 
