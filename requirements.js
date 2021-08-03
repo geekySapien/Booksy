@@ -44,8 +44,8 @@ update/add new book author✌🎯
 
 DELETE METHOD
 
-delete a book✌
-delete an author from book✌
+delete a book✌🎯
+delete an author from book✌🎯
 
 //Author
 

@@ -288,8 +288,7 @@ booky.put('/update/author/:isbn/:authorID', async(req, res)=>{
         {
             new: true
         }
-
-    )
+ );
 
     const updatedAuthor=await AuthorModel.findOneAndUpdate(
         {
@@ -347,7 +346,7 @@ Parameter       isbn
 Methods         DELETE
 */
 
-booky.delete('/book/delete/:isbn', (req,res)=>{
+/*booky.delete('/book/delete/:isbn', (req,res)=>{
     //We are not using forEach loop here because here we wwant to delete a specfiedd book i.e filter book that has isbn equal to that received from the parameter. So it would be ideal to use filter method here
 
     const updatedBookDatabase=database.books.filter((book)=>{
@@ -357,8 +356,16 @@ booky.delete('/book/delete/:isbn', (req,res)=>{
     //filter will return new array, so store it in the master object
     database.books=updatedBookDatabase;
     return res.json({books: database.books});
-})
+})*/
 
+booky.delete('/book/delete/:isbn', async(req, res)=>{
+    const updatedBookDatabase=await BookModel.findOneAndDelete(
+        {
+            ISBN: req.params.isbn
+        }
+    )
+    return res.json({message: "Book was successfullly deleted"});
+})
 
 /*
 Route           /book/delete/author
@@ -368,7 +375,7 @@ Parameter       isbn, author id
 Methods         DELETE
 */
 
-booky.delete('/book/delete/author/:isbn/:authorId', ((req, res)=>{
+/*booky.delete('/book/delete/author/:isbn/:authorId', ((req, res)=>{
     database.books.forEach((book)=>{
         if(book.ISBN===req.params.isbn)
         {
@@ -390,8 +397,37 @@ booky.delete('/book/delete/author/:isbn/:authorId', ((req, res)=>{
     }})
 
     return res.json({book:database.books, author:database.author, message:"Successfully deleted book"})
-}))
+}))*/
 
+booky.delete('/book/delete/author/:isbn/:authorID', async(req, res)=>{
+    const updatedBook=await BookModel.findOneAndUpdate(
+        {
+            ISBN:req.params.isbn
+        },
+        {
+            $pull:{
+                authors:parseInt(req.params.authorID)
+            }
+        },
+        {
+            new:true
+        }
+    );
+    const updatedAuthor=await AuthorModel.findOneAndUpdate(
+        {
+            id:parseInt(req.params.authorID)
+        },
+        {
+            $pull:{
+                books:req.params.isbn
+            }
+        },
+        {
+            new:true
+        }
+    );
+    return res.json({Books: updatedBook, Authors: updatedAuthor, message: "Book successfully deleted from the author"});
+})
 
 /*
 Route           /book/delete/publication
