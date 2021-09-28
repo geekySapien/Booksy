@@ -19,7 +19,7 @@ BOOKS
 To get all books✌🎯
 To get specific books✌🎯
 To get lists of books based on category✌🎯
-To get list of booos  based on author 
+To get list of books  based on author 
 
 
 //authors
